@@ -6,17 +6,8 @@ import com.simbirsoft.drools.clienthandler.model.Subscriber
 import function com.simbirsoft.drools.clienthandler.util.DroolsClientLogger.warn
 import function com.simbirsoft.drools.clienthandler.util.DroolsClientLogger.error
 
-rule "Is valid Client"
-  when
-    exists DroolsClient()
-    $client: DroolsClient(client.subscribers == null)
-  then
-    error("Validation Error. Client subscribes is empty");
-  end
-
 rule "Sum subscribers spent"
   when
-    exists DroolsClient()
     $droolsClient: DroolsClient($client: client, $clientResult: clientResult);
     $total : Number() from accumulate(
            s: Subscriber() from $client.subscribers,
@@ -27,10 +18,9 @@ rule "Sum subscribers spent"
 
 rule "Is big client"
   when
-    exists DroolsClient()
-    $client: DroolsClient(client.subscribers != null && client.subscribers.size() > 100)
+    $client: DroolsClient(client.subscribers != null)
   then
-    $client.getClientResult().setBig(true);
+    $client.getClientResult().setBig(client.subscribers.size() > 100);
   end
 
 rule "Unknown type"
