@@ -3,6 +3,7 @@ package com.simbirsoft.drools.clienthandler.file;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simbirsoft.drools.clienthandler.model.Client;
 import com.simbirsoft.drools.clienthandler.model.ClientResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,8 @@ public class FileClientStorage implements ClientStorage {
 
     private static final String OTPUT_FILE_TEMPLATE = "\\%d.json";
 
-    private ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper mapper;
 
     private File[] inboxFiles;
     private File outboxDir;
