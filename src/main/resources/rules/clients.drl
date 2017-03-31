@@ -7,7 +7,7 @@ import com.simbirsoft.drools.clienthandler.model.Subscriber
 
 rule "Sum subscribers spent"
   when
-    $droolsClient: DroolsClient($client: client, $clientResult: clientResult);
+    $droolsClient: DroolsClient(client != null && $client: client, $clientResult: clientResult);
     $total : Number() from accumulate(
            s: Subscriber() from $client.subscribers,
            sum(s.getSpent()))
@@ -17,7 +17,7 @@ rule "Sum subscribers spent"
 
 rule "Is big client"
   when
-    $client: DroolsClient(client.subscribers != null && client.subscribers.size() > 100)
+    $client: DroolsClient(client != null && client.subscribers != null && client.subscribers.size() > 100)
   then
     $client.getClientResult().setBig(true);
   end
