@@ -1,6 +1,6 @@
 package com.simbirsoft.drools.clienthandler.service;
 
-import com.simbirsoft.drools.clienthandler.factory.ProcessingFactory;
+import com.simbirsoft.drools.clienthandler.factory.DroolsSessionFactory;
 import com.simbirsoft.drools.clienthandler.model.DroolsClient;
 import org.drools.runtime.StatelessKnowledgeSession;
 import org.slf4j.Logger;
@@ -17,15 +17,15 @@ public class DroolsClientsServiceImpl implements DroolsClientsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DroolsClientsServiceImpl.class);
 
     @Autowired
-    @Qualifier("ClientsProcessingFactory")
-    ProcessingFactory<StatelessKnowledgeSession> processingFactory;
+    @Qualifier("DroolsClientsSessionFactory")
+    DroolsSessionFactory droolsSessionFactory;
 
     @Override
     public void process(List<DroolsClient> clients) {
-        LOGGER.debug("Running product logic");
-        StatelessKnowledgeSession statelessKnowledgeSession = processingFactory.createProcessingObject();
-        LOGGER.debug("Running rules for products...");
+        LOGGER.debug("Running drools clients session");
+        StatelessKnowledgeSession statelessKnowledgeSession = droolsSessionFactory.createSession();
+        LOGGER.debug("Running rules for clients...");
         statelessKnowledgeSession.execute(clients);
-        LOGGER.debug("...finished running products.");
+        LOGGER.debug("...finished running clients.");
     }
 }
