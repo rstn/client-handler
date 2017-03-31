@@ -1,7 +1,7 @@
 # client-handler
 
 Для сборки проекта в переменных окружения должна быть установлена JDK8.
-build.bat - сборка проекта, прогон тестов
+Вначале необходимо запустить build.bat - сборка проекта, прогон тестов
 run_app.bat - запуск приложения, которое находится в target/dist/ClientHandlerApp.jar
 Конфигурационный файл - target/dist/clientProcessing.properties
 
