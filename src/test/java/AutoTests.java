@@ -1,13 +1,22 @@
+import com.simbirsoft.drools.clienthandler.service.ClientProcessingService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:testApplicationContext.xml"})
 public class AutoTests {
     private static final String IS_BIG = "isBig";
     private static final String SPENT_TOTAL = "spentTotal";
@@ -20,6 +29,27 @@ public class AutoTests {
     private static final Long SPENT_TOTAL__10006 = 14950L;
     private static final Long SPENT_TOTAL__10001 = 1045L;
     private static final Long SPENT_TOTAL__10002 = 5009950000L;
+    private static final String OUTPUT_DIR = "src\\test\\resources\\outbox";
+
+    @Autowired
+    private ClientProcessingService clientProcessingMachine;
+    
+    private static boolean isRun = false;
+    
+    @Before
+    public void createClientResults(){
+        if (!isRun) {
+            File file = new File(OUTPUT_DIR);
+            if (file.exists()){
+                File[] fileList = file.listFiles((File f, String name) -> name.matches("^\\d*.json$"));
+                for(File f : fileList){
+                    f.delete();
+                }
+            }
+            clientProcessingMachine.startProcess();
+            isRun = true;
+        }
+    }
 
     @Test
     public void testOutClientIdEqualsInClientId10010() {
