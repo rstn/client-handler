@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Component
@@ -18,38 +19,45 @@ public class FileClientStorage implements ClientStorage {
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    private File[] inboxFiles;
-    private File outboxDir;
-    private int currentInboxPos = -1;
+    private final File[] inboxFiles;
+    private final File outboxDir;
+    private int currentInboxPos = 0;
 
     public FileClientStorage(@Value("${inbox.dir}") String inboxDirPath, @Value("${outbox.dir}") String outboxDirPath) {
         checkNotNull(inboxDirPath, "Директория inbox не задана");
         checkNotNull(outboxDirPath, "Директория outbox не задана");
-        //TODO добавить другие проверки
-
         File inboxDir = new File(inboxDirPath);
+        checkArgument(!inboxDir.exists() || !inboxDir.isDirectory() || !inboxDir.canRead(),
+                "Входная директория указана не верно или нет прав на чтение");
+
+        outboxDir = new File(outboxDirPath);
+        if (!outboxDir.exists()) {
+            outboxDir.mkdir();
+        }
 
         this.inboxFiles = inboxDir.listFiles((File f, String name) -> name.matches("^\\d*.json$"));
-        this.outboxDir = new File(outboxDirPath);
+
     }
 
     @Override
     public boolean hasNextClient() {
-        return currentInboxPos + 1 < inboxFiles.length;
+        return currentInboxPos < inboxFiles.length;
     }
 
     @Override
     public Client loadNextClient() throws LoadClientException {
         if (currentInboxPos + 1 == inboxFiles.length) {
-            throw new RuntimeException("Входных файлов с клиентами больше нет");
+            throw new LoadClientException("Входных файлов с клиентами больше нет");
         }
 
-        currentInboxPos++;
+        Client client;
         try {
-            return mapper.readValue(inboxFiles[currentInboxPos], Client.class);
+            client = mapper.readValue(inboxFiles[currentInboxPos], Client.class);
         } catch (IOException ex) {
             throw new LoadClientException("Не возможно прочитать входной файл", ex);
         }
+        currentInboxPos++;
+        return client;
     }
 
     @Override

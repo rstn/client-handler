@@ -14,16 +14,16 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("DroolsClientProcessingMachine")
-public class ClientProcessingMachineImpl implements ClientProcessingMachine {
+@Component("DroolsClientProcessing")
+public class ClientProcessingServiceImpl implements ClientProcessingService {
 
     private ClientStorage clientStorage;
     private DroolsClientsService droolsClientsService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientProcessingMachineImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientProcessingServiceImpl.class);
 
     @Autowired
-    public ClientProcessingMachineImpl(ClientStorage clientStorage, DroolsClientsService droolsClientsService) {
+    public ClientProcessingServiceImpl(ClientStorage clientStorage, DroolsClientsService droolsClientsService) {
         this.clientStorage = clientStorage;
         this.droolsClientsService = droolsClientsService;
     }
