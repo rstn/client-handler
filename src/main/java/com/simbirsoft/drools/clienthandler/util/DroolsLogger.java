@@ -5,21 +5,21 @@ import org.slf4j.LoggerFactory;
 
 public class DroolsLogger {
 
-    private static Logger log = LoggerFactory.getLogger("ClientRules");
+    private static Logger LOGGER = LoggerFactory.getLogger("ClientRules");
 
     public static void info(final String message){
-        log.info(message);
+        LOGGER.info(message);
     }
 
     public static void debug(final String message){
-        log.debug(message);
+        LOGGER.debug(message);
     }
 
     public static void warn(final String message){
-        log.warn(message);
+        LOGGER.warn(message);
     }
 
     public static void error(final String message){
-        log.error(message);
+        LOGGER.error(message);
     }
 }
