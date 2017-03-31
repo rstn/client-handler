@@ -3,6 +3,7 @@ package com.simbirsoft.drools.clienthandler.file;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simbirsoft.drools.clienthandler.model.Client;
 import com.simbirsoft.drools.clienthandler.model.ClientResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +16,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Component
 public class FileClientStorage implements ClientStorage {
 
-    private static final String OTPUT_FILE_TEMPLATE = "\\%d.json";
+    private static final String OUTPUT_FILE_TEMPLATE = "\\%d.json";
 
-    private ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper mapper;
 
     private final File[] inboxFiles;
     private final File outboxDir;
@@ -62,7 +64,7 @@ public class FileClientStorage implements ClientStorage {
 
     @Override
     public void storeClientResult(ClientResult clientResult) throws StoreClientException {
-        File output = new File(outboxDir, String.format(OTPUT_FILE_TEMPLATE, clientResult.getClientId()));
+        File output = new File(outboxDir, String.format(OUTPUT_FILE_TEMPLATE, clientResult.getClientId()));
         try {
             mapper.writeValue(output, clientResult);
         } catch (IOException ex) {

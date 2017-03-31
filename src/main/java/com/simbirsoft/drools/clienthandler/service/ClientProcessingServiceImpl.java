@@ -17,8 +17,8 @@ import java.util.List;
 @Component("DroolsClientProcessing")
 public class ClientProcessingServiceImpl implements ClientProcessingService {
 
-    private ClientStorage clientStorage;
-    private DroolsClientsService droolsClientsService;
+    private final ClientStorage clientStorage;
+    private final DroolsClientsService droolsClientsService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientProcessingServiceImpl.class);
 

@@ -10,4 +10,6 @@
     <context:component-scan base-package="com.simbirsoft.drools.clienthandler"/>
 
     <context:property-placeholder location="classpath*:clientProcessingMachine.properties"/>
+    
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
 </beans>
