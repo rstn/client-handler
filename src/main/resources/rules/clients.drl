@@ -6,14 +6,6 @@ import com.simbirsoft.drools.clienthandler.model.Subscriber
 import function com.simbirsoft.drools.clienthandler.util.DroolsLogger.warn
 import function com.simbirsoft.drools.clienthandler.util.DroolsLogger.error
 
-rule "Unknown type"
-  when
-    not DroolsClient()
-    some: Object()
-  then
-    warn("Unknown object type: " + some.getClass());
-  end
-
 rule "Is valid Client"
   when
     exists DroolsClient()
@@ -39,4 +31,12 @@ rule "Is big client"
     $client: DroolsClient(client.subscribers != null && client.subscribers.size() > 100)
   then
     $client.getClientResult().setBig(true);
+  end
+
+rule "Unknown type"
+  when
+    not DroolsClient()
+    some: Object()
+  then
+    warn("Waited DroolsClient. Recive: " + some);
   end
