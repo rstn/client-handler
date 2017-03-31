@@ -21,15 +21,16 @@ public class AutoTests {
     private static final String IS_BIG = "isBig";
     private static final String SPENT_TOTAL = "spentTotal";
     private static final String CLIENT_ID = "clientId";
-    private static final String FILENAME_10010 = "outbox/10010.json";
-    private static final String FILENAME_10006 = "outbox/10006.json";
-    private static final String FILENAME_10001 = "outbox/10001.json";
-    private static final String FILENAME_10002 = "outbox/10002.json";
+    private static final String OUTPUT_DIR = "src\\test\\resources\\outbox";
+    private static final String FILENAME_10010 = OUTPUT_DIR + "\\10010.json";
+    private static final String FILENAME_10006 = OUTPUT_DIR + "\\10006.json";
+    private static final String FILENAME_10001 = OUTPUT_DIR + "\\10001.json";
+    private static final String FILENAME_10002 = OUTPUT_DIR + "\\10002.json";
     private static final Long SPENT_TOTAL__10010 = 15150L;
     private static final Long SPENT_TOTAL__10006 = 14950L;
     private static final Long SPENT_TOTAL__10001 = 1045L;
     private static final Long SPENT_TOTAL__10002 = 5009950000L;
-    private static final String OUTPUT_DIR = "src\\test\\resources\\outbox";
+    
 
     @Autowired
     private ClientProcessingService clientProcessingMachine;
