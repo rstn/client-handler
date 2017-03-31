@@ -1,4 +1,4 @@
-package com.simbirsoft.drools.clienthandler.file;
+package com.simbirsoft.drools.clienthandler.service.file;
 
 
 import com.simbirsoft.drools.clienthandler.model.Client;

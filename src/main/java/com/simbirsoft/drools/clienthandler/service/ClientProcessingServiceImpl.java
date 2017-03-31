@@ -1,8 +1,8 @@
 package com.simbirsoft.drools.clienthandler.service;
 
-import com.simbirsoft.drools.clienthandler.file.ClientStorage;
-import com.simbirsoft.drools.clienthandler.file.LoadClientException;
-import com.simbirsoft.drools.clienthandler.file.StoreClientException;
+import com.simbirsoft.drools.clienthandler.service.file.ClientStorage;
+import com.simbirsoft.drools.clienthandler.service.file.LoadClientException;
+import com.simbirsoft.drools.clienthandler.service.file.StoreClientException;
 import com.simbirsoft.drools.clienthandler.model.Client;
 import com.simbirsoft.drools.clienthandler.model.ClientResult;
 import com.simbirsoft.drools.clienthandler.model.DroolsClient;
