@@ -25,11 +25,7 @@ public class DroolsClientsServiceImplTest {
     @Qualifier("DroolsClientsServiceImpl")
     DroolsClientsService droolsClientsService;
 
-    /**
-     * Test is not run in perfect isolation - the purpose is to show the outcome of processing with Drools
-     *
-     * @throws Exception
-     */
+
     @Test
     public void testRunSpent() throws Exception {
         Client testSumClient = new Client();
