@@ -13,6 +13,7 @@ rule "Sum subscribers spent"
            sum(s.getSpent()))
   then
     $clientResult.setSpentTotal($total.longValue());
+    LoggerFactory.getLogger(DroolsClient.class).debug("Sum subscribers spent rule applied");
   end
 
 rule "Is big client"
@@ -20,6 +21,7 @@ rule "Is big client"
     $client: DroolsClient(client.subscribers != null && client.subscribers.size() > 100)
   then
     $client.getClientResult().setBig(true);
+    LoggerFactory.getLogger(DroolsClient.class).debug("Is big client rule applied");
   end
 
 rule "Unknown type"
