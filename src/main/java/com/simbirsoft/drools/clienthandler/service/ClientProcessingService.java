@@ -1,6 +1,6 @@
 package com.simbirsoft.drools.clienthandler.service;
 
-public interface ClientProcessingMachine {
+public interface ClientProcessingService {
 
     void startProcess();
 }

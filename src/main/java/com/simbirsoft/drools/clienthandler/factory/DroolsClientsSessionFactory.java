@@ -15,6 +15,6 @@ public class DroolsClientsSessionFactory implements DroolsSessionFactory {
 
     @Override
     public StatelessKnowledgeSession createSession() {
-        return (StatelessKnowledgeSession)applicationContext.getBean(CLIENTS_KSESSION);
+        return (StatelessKnowledgeSession) applicationContext.getBean(CLIENTS_KSESSION);
     }
 }

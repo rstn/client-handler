@@ -9,5 +9,7 @@
     <!-- Show Spring where to search for the beans (in which packages) -->
     <context:component-scan base-package="com.simbirsoft.drools.clienthandler"/>
 
-    <context:property-placeholder location="classpath*:clientProcessingMachine.properties"/>
+    <context:property-placeholder location="classpath*:clientProcessing.properties"/>
+
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
 </beans>

@@ -1,15 +1,17 @@
 package com.simbirsoft.drools.clienthandler.app;
 
-import com.simbirsoft.drools.clienthandler.service.ClientProcessingMachine;
+import com.simbirsoft.drools.clienthandler.service.ClientProcessingService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ClientHandlerApp {
 
+    private ClientHandlerApp() {}
+
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        ClientProcessingMachine clientProcessingMachine =(ClientProcessingMachine)context.getBean("DroolsClientProcessingMachine");
+        ClientProcessingService clientProcessingMachine = (ClientProcessingService) context.getBean("DroolsClientProcessing");
         clientProcessingMachine.startProcess();
     }
 }
