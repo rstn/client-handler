@@ -12,7 +12,7 @@
 
     <!-- Application Loggers -->
     <logger name="com.simbirsoft">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
 
     <!-- 3rdparty Loggers -->
