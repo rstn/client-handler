@@ -1,6 +1,5 @@
 package com.simbirsoft.drools.clienthandler.service;
 
-import com.simbirsoft.drools.clienthandler.service.ClientProcessingService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
