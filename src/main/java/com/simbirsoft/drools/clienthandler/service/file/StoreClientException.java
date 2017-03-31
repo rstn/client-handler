@@ -1,4 +1,4 @@
-package com.simbirsoft.drools.clienthandler.file;
+package com.simbirsoft.drools.clienthandler.service.file;
 
 public class StoreClientException extends Exception {
 
