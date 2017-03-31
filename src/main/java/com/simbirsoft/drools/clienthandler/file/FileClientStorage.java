@@ -43,12 +43,12 @@ public class FileClientStorage implements ClientStorage {
 
     @Override
     public boolean hasNextClient() {
-        return currentInboxPos + 1 < inboxFiles.length;
+        return currentInboxPos < inboxFiles.length;
     }
 
     @Override
     public Client loadNextClient() throws LoadClientException {
-        if (currentInboxPos + 1 == inboxFiles.length) {
+        if (currentInboxPos == inboxFiles.length) {
             throw new LoadClientException("Входных файлов с клиентами больше нет");
         }
 
