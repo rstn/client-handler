@@ -1,6 +1,8 @@
 package com.simbirsoft.drools.clienthandler.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ClientResult {
 
     private long clientId;
@@ -27,6 +29,7 @@ public class ClientResult {
         return this;
     }
 
+    @JsonProperty("isBig")
     public boolean isBig() {
         return isBig;
     }
