@@ -3,9 +3,9 @@ package com.simbirsoft.drools.clienthandler.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DroolsLogger {
+public class DroolsClientLogger {
 
-    private static Logger LOGGER = LoggerFactory.getLogger("ClientRules");
+    private static Logger LOGGER = LoggerFactory.getLogger(DroolsClientLogger.class);
 
     public static void info(final String message){
         LOGGER.info(message);
