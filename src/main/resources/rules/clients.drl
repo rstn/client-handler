@@ -1,17 +1,17 @@
 package rules
 
+import org.slf4j.LoggerFactory
 import com.simbirsoft.drools.clienthandler.model.DroolsClient
 import com.simbirsoft.drools.clienthandler.model.ClientResult
 import com.simbirsoft.drools.clienthandler.model.Subscriber
-import function com.simbirsoft.drools.clienthandler.util.DroolsClientLogger.warn
-import function com.simbirsoft.drools.clienthandler.util.DroolsClientLogger.error
+
 
 rule "Is valid Client"
   when
     exists DroolsClient()
     $client: DroolsClient(client.subscribers == null)
   then
-    error("Validation Error. Client subscribes is empty");
+    LoggerFactory.getLogger(DroolsClient.class).error("Validation Error. Client subscribes is empty");
   end
 
 rule "Sum subscribers spent"
@@ -38,5 +38,5 @@ rule "Unknown type"
     not DroolsClient()
     some: Object()
   then
-    warn("Waited DroolsClient. Recive: " + some);
+    LoggerFactory.getLogger(DroolsClient.class).warn("Waited DroolsClient. Recive: " + some);
   end
