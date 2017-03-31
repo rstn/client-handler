@@ -11,4 +11,6 @@ public interface ClientStorage {
     Client loadNextClient() throws LoadClientException;
 
     void storeClientResult(ClientResult clientResult) throws StoreClientException;
+
+    void markProcessed(Client client) throws StoreClientException;
 }
