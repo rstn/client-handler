@@ -15,7 +15,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Component
 public class FileClientStorage implements ClientStorage {
 
-    private static final String OTPUT_FILE_TEMPLATE = "\\%d.json";
+    private static final String OUTPUT_FILE_TEMPLATE = "\\%d.json";
 
     @Autowired
     private ObjectMapper mapper;
@@ -43,7 +43,7 @@ public class FileClientStorage implements ClientStorage {
     @Override
     public Client loadNextClient() throws LoadClientException {
         if (currentInboxPos + 1 == inboxFiles.length) {
-            throw new RuntimeException("Входных файлов с клиентами больше нет");
+            throw new LoadClientException("Входных файлов с клиентами больше нет");
         }
 
         currentInboxPos++;
@@ -56,7 +56,7 @@ public class FileClientStorage implements ClientStorage {
 
     @Override
     public void storeClientResult(ClientResult clientResult) throws StoreClientException {
-        File output = new File(outboxDir, String.format(OTPUT_FILE_TEMPLATE, clientResult.getClientId()));
+        File output = new File(outboxDir, String.format(OUTPUT_FILE_TEMPLATE, clientResult.getClientId()));
         try {
             mapper.writeValue(output, clientResult);
         } catch (IOException ex) {
