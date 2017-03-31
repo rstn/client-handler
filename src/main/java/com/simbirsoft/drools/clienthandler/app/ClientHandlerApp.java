@@ -9,7 +9,7 @@ public class ClientHandlerApp {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        ClientProcessingService clientProcessingMachine =(ClientProcessingService)context.getBean("DroolsClientProcessingMachine");
+        ClientProcessingService clientProcessingMachine = (ClientProcessingService) context.getBean("DroolsClientProcessing");
         clientProcessingMachine.startProcess();
     }
 }

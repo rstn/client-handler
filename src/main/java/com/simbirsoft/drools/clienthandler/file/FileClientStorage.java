@@ -29,7 +29,7 @@ public class FileClientStorage implements ClientStorage {
         checkNotNull(inboxDirPath, "Директория inbox не задана");
         checkNotNull(outboxDirPath, "Директория outbox не задана");
         File inboxDir = new File(inboxDirPath);
-        checkArgument(!inboxDir.exists() || !inboxDir.isDirectory() || !inboxDir.canRead(),
+        checkArgument(inboxDir.exists() && inboxDir.isDirectory() && inboxDir.canRead(),
                 "Входная директория указана не верно или нет прав на чтение");
 
         outboxDir = new File(outboxDirPath);
@@ -43,7 +43,7 @@ public class FileClientStorage implements ClientStorage {
 
     @Override
     public boolean hasNextClient() {
-        return currentInboxPos < inboxFiles.length;
+        return currentInboxPos + 1 < inboxFiles.length;
     }
 
     @Override

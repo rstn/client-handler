@@ -1,11 +1,12 @@
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Objects;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Objects;
 
 public class AutoTests {
     private static final String IS_BIG = "isBig";
