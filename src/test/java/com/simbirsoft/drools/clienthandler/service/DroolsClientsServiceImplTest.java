@@ -27,6 +27,7 @@ public class DroolsClientsServiceImplTest {
 
     /**
      * Test is not run in perfect isolation - the purpose is to show the outcome of processing with Drools
+     *
      * @throws Exception
      */
     @Test

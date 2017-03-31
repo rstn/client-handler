@@ -7,6 +7,7 @@
 
     <import resource="classpath:drools-context.xml"/>
     <!-- Show Spring where to search for the beans (in which packages) -->
-    <context:component-scan base-package="com.simbirsoft.drools.clienthandler" />
+    <context:component-scan base-package="com.simbirsoft.drools.clienthandler"/>
 
+    <context:property-placeholder location="classpath*:clientProcessingMachine.properties"/>
 </beans>

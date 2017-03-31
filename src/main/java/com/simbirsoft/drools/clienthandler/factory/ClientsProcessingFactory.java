@@ -13,6 +13,6 @@ public class ClientsProcessingFactory implements ProcessingFactory<StatelessKnow
 
     @Override
     public StatelessKnowledgeSession createProcessingObject() {
-        return (StatelessKnowledgeSession)applicationContext.getBean("clientsKSession");
+        return (StatelessKnowledgeSession) applicationContext.getBean("clientsKSession");
     }
 }
