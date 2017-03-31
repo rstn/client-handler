@@ -27,5 +27,5 @@ rule "Unknown type"
     not DroolsClient()
     some: Object()
   then
-    LoggerFactory.getLogger(DroolsClient.class).warn("Waited DroolsClient. Recive: " + some);
+    LoggerFactory.getLogger(DroolsClient.class).warn("Waited DroolsClient. Received: " + some);
   end
