@@ -48,6 +48,7 @@ public class ClientProcessingServiceImpl implements ClientProcessingService {
         for (DroolsClient client : clients) {
             try {
                 clientStorage.storeClientResult(client.getClientResult());
+                clientStorage.markProcessed(client.getClient());
             } catch (StoreClientException e) {
                 LOGGER.error("Не удалось сохранить результаты обработки", e);
             }

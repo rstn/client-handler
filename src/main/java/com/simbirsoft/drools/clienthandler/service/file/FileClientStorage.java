@@ -1,6 +1,7 @@
 package com.simbirsoft.drools.clienthandler.service.file;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.io.Files;
 import com.simbirsoft.drools.clienthandler.model.Client;
 import com.simbirsoft.drools.clienthandler.model.ClientResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -16,28 +18,43 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Component
 public class FileClientStorage implements ClientStorage {
 
-    private static final String OUTPUT_FILE_TEMPLATE = "\\%d.json";
+    private static final String FILE_TEMPLATE = "\\%d.json";
 
     @Autowired
     private ObjectMapper mapper;
 
     private final File[] inboxFiles;
+    private final File inboxDir;
     private final File outboxDir;
+    private final File processedDir;
     private int currentInboxPos = 0;
 
-    public FileClientStorage(@Value("${inbox.dir}") String inboxDirPath, @Value("${outbox.dir}") String outboxDirPath) {
+    public FileClientStorage(@Value("${inbox.dir}") String inboxDirPath,
+                             @Value("${outbox.dir}") String outboxDirPath,
+                             @Value("${processed.dir}") String processedDirPath) {
         checkNotNull(inboxDirPath, "Директория inbox не задана");
         checkNotNull(outboxDirPath, "Директория outbox не задана");
-        File inboxDir = new File(inboxDirPath);
+        inboxDir = new File(inboxDirPath);
         checkArgument(inboxDir.exists() && inboxDir.isDirectory() && inboxDir.canRead(),
                 "Входная директория указана не верно или нет прав на чтение");
 
         outboxDir = new File(outboxDirPath);
-        if (!outboxDir.exists()) {
+        if (outboxDir.exists()) {
+            checkArgument(outboxDir.isDirectory() && outboxDir.canWrite(),
+                    "Выходная директория указана не верно или нет прав на запись");
+        } else {
             outboxDir.mkdir();
         }
 
-        this.inboxFiles = inboxDir.listFiles((File f, String name) -> name.matches("^\\d*.json$"));
+        processedDir = new File(processedDirPath);
+        if (processedDir.exists()) {
+            checkArgument(processedDir.isDirectory() && processedDir.canWrite(),
+                    "Директория с обработанными входными файлами указана не верно или нет прав на запись");
+        } else {
+            processedDir.mkdir();
+        }
+
+        inboxFiles = inboxDir.listFiles((File f, String name) -> name.matches("^\\d*.json$"));
 
     }
 
@@ -64,11 +81,23 @@ public class FileClientStorage implements ClientStorage {
 
     @Override
     public void storeClientResult(ClientResult clientResult) throws StoreClientException {
-        File output = new File(outboxDir, String.format(OUTPUT_FILE_TEMPLATE, clientResult.getClientId()));
+        File output = new File(outboxDir, String.format(FILE_TEMPLATE, clientResult.getClientId()));
         try {
             mapper.writeValue(output, clientResult);
         } catch (IOException ex) {
             throw new StoreClientException("Не удалось записать результаты в файл", ex);
+        }
+    }
+
+    @Override
+    public void markProcessed(Client client) throws StoreClientException {
+        String fileName = String.format(FILE_TEMPLATE, client.getClientId());
+        File inputFile = new File(inboxDir, fileName);
+        File processedFile = new File(processedDir, fileName);
+        try {
+            Files.move(inputFile, processedFile);
+        } catch (IOException ex) {
+            throw new StoreClientException("Не удалось перенести обработанный файл в другую директорию", ex);
         }
     }
 }
