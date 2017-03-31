@@ -1,11 +1,9 @@
 package com.simbirsoft.drools.clienthandler.service;
 
-import com.simbirsoft.drools.clienthandler.factory.ProcessingFactory;
 import com.simbirsoft.drools.clienthandler.model.Client;
 import com.simbirsoft.drools.clienthandler.model.ClientResult;
 import com.simbirsoft.drools.clienthandler.model.DroolsClient;
 import com.simbirsoft.drools.clienthandler.model.Subscriber;
-import org.drools.runtime.StatelessKnowledgeSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +19,11 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class ClientsServiceImplTest {
+public class DroolsClientsServiceImplTest {
 
     @Autowired
-    @Qualifier("ClientsServiceImpl")
-    ClientsService clientsService;
+    @Qualifier("DroolsClientsServiceImpl")
+    DroolsClientsService droolsClientsService;
 
     /**
      * Test is not run in perfect isolation - the purpose is to show the outcome of processing with Drools
@@ -47,7 +45,7 @@ public class ClientsServiceImplTest {
 
         DroolsClient droolsClient = new DroolsClient(testSumClient, new ClientResult());
 
-        clientsService.process(newArrayList(droolsClient));
+        droolsClientsService.process(newArrayList(droolsClient));
 
         assertEquals(25L, droolsClient.getClientResult().getSpentTotal());
     }

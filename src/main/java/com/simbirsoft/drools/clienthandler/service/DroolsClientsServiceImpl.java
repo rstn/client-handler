@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component("ClientsServiceImpl")
-public class ClientsServiceImpl implements ClientsService {
+@Component("DroolsClientsServiceImpl")
+public class DroolsClientsServiceImpl implements DroolsClientsService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientsServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DroolsClientsServiceImpl.class);
 
     @Autowired
     @Qualifier("ClientsProcessingFactory")
