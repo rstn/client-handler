@@ -1,13 +1,22 @@
 package rules
 
+import org.slf4j.LoggerFactory
 import com.simbirsoft.drools.clienthandler.model.DroolsClient
 import com.simbirsoft.drools.clienthandler.model.ClientResult
 import com.simbirsoft.drools.clienthandler.model.Subscriber
-import function com.simbirsoft.drools.clienthandler.util.DroolsClientLogger.warn
-import function com.simbirsoft.drools.clienthandler.util.DroolsClientLogger.error
+
+
+rule "Is valid Client"
+  when
+    exists DroolsClient()
+    $client: DroolsClient(client.subscribers == null)
+  then
+    LoggerFactory.getLogger(DroolsClient.class).error("Validation Error. Client subscribes is empty");
+  end
 
 rule "Sum subscribers spent"
   when
+    exists DroolsClient()
     $droolsClient: DroolsClient($client: client, $clientResult: clientResult);
     $total : Number() from accumulate(
            s: Subscriber() from $client.subscribers,
@@ -18,9 +27,10 @@ rule "Sum subscribers spent"
 
 rule "Is big client"
   when
-    $client: DroolsClient(client.subscribers != null)
+    exists DroolsClient()
+    $client: DroolsClient(client.subscribers != null && client.subscribers.size() > 100)
   then
-    $client.getClientResult().setBig(client.subscribers.size() > 100);
+    $client.getClientResult().setBig(true);
   end
 
 rule "Unknown type"
@@ -28,5 +38,5 @@ rule "Unknown type"
     not DroolsClient()
     some: Object()
   then
-    warn("Waited DroolsClient. Recive: " + some);
+    LoggerFactory.getLogger(DroolsClient.class).warn("Waited DroolsClient. Recive: " + some);
   end
