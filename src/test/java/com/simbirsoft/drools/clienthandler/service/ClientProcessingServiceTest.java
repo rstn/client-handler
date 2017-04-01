@@ -37,17 +37,43 @@ public class ClientProcessingServiceTest {
     private ClientProcessingService clientProcessingService;
     
     private static boolean isRun = false;
+
+    private void deleteFiles(String path) {
+        File file = new File(path);
+        if (file.exists()){
+            File[] fileList = file.listFiles((File f, String name) -> name.matches("^\\d*.json$"));
+            for(File f : fileList){
+                f.delete();
+            }
+        }
+    }
+
+    private Long getLongProperty(String name, String file, Long def) {
+        JSONParser parser = new JSONParser();
+        try {
+            JSONObject object = (JSONObject) parser.parse(new FileReader(file));
+            return (Long) object.get(name);
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
+        return def;
+    }
+
+    private Boolean getBoolProperty(String name, String file, Boolean def) {
+        JSONParser parser = new JSONParser();
+        try {
+            JSONObject object = (JSONObject) parser.parse(new FileReader(file));
+            return (Boolean) object.get(name);
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
+        return def;
+    }
     
     @Before
     public void createClientResults(){
         if (!isRun) {
-            File file = new File(OUTPUT_DIR);
-            if (file.exists()){
-                File[] fileList = file.listFiles((File f, String name) -> name.matches("^\\d*.json$"));
-                for(File f : fileList){
-                    f.delete();
-                }
-            }
+            deleteFiles(OUTPUT_DIR);
             clientProcessingService.startProcess();
             isRun = true;
         }
@@ -55,118 +81,55 @@ public class ClientProcessingServiceTest {
 
     @Test
     public void testOutClientIdEqualsInClientId10010() {
-        JSONParser parser = new JSONParser();
-        Long id = null;
-        try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(FILENAME_10010));
-            id = (Long) object.get(CLIENT_ID);
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+        Long id = getLongProperty(CLIENT_ID, FILENAME_10010, null);
         Assert.assertTrue(10010L == id);
     }
 
     @Test
     public void testSpentTotalCheck10002() {
-        JSONParser parser = new JSONParser();
-        Long spentTotal = 0L;
-        try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(FILENAME_10002));
-            spentTotal = (Long) object.get(SPENT_TOTAL);
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+        Long spentTotal = getLongProperty(SPENT_TOTAL, FILENAME_10002, 0L);
         Assert.assertTrue(Objects.equals(SPENT_TOTAL__10002, spentTotal));
     }
 
     @Test
     public void testSpentTotalCheck10010() {
-        JSONParser parser = new JSONParser();
-        Long spentTotal = 0L;
-        try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(FILENAME_10010));
-            spentTotal = (Long) object.get(SPENT_TOTAL);
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+        Long spentTotal = getLongProperty(SPENT_TOTAL, FILENAME_10010, 0L);
         Assert.assertTrue(Objects.equals(SPENT_TOTAL__10010, spentTotal));
     }
 
     @Test
     public void testSpentTotalCheck10006() {
-        JSONParser parser = new JSONParser();
-        Long spentTotal = 0L;
-        try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(FILENAME_10006));
-            spentTotal = (Long) object.get(SPENT_TOTAL);
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+        Long spentTotal = getLongProperty(SPENT_TOTAL, FILENAME_10006, 0L);
         Assert.assertTrue(Objects.equals(SPENT_TOTAL__10006, spentTotal));
     }
 
     @Test
     public void testSpentTotalCheck10001() {
-        JSONParser parser = new JSONParser();
-        Long spentTotal = 0L;
-        try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(FILENAME_10001));
-            spentTotal = (Long) object.get(SPENT_TOTAL);
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+        Long spentTotal = getLongProperty(SPENT_TOTAL, FILENAME_10001, 0L);
         Assert.assertTrue(Objects.equals(SPENT_TOTAL__10001, spentTotal));
     }
 
     @Test
     public void testIsBigFalse10001() {
-        JSONParser parser = new JSONParser();
-        Boolean isBig = false;
-        try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(FILENAME_10001));
-            isBig = (Boolean) object.get(IS_BIG);
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+        Boolean isBig = getBoolProperty(IS_BIG, FILENAME_10001, false);;
         Assert.assertTrue(!isBig);
     }
 
     @Test
     public void testIsBigTrue10010() {
-        JSONParser parser = new JSONParser();
-        Boolean isBig = false;
-        try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(FILENAME_10010));
-            isBig = (Boolean) object.get(IS_BIG);
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+        Boolean isBig = getBoolProperty(IS_BIG, FILENAME_10010, false);
         Assert.assertTrue(isBig);
     }
 
     @Test
     public void testIsBigFalse10006() {
-        JSONParser parser = new JSONParser();
-        Boolean isBig = false;
-        try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(FILENAME_10006));
-            isBig = (Boolean) object.get(IS_BIG);
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+        Boolean isBig = getBoolProperty(IS_BIG, FILENAME_10006, false);;
         Assert.assertTrue(!isBig);
     }
 
     @Test
     public void testIsBigTrue10002() {
-        JSONParser parser = new JSONParser();
-        Boolean isBig = false;
-        try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(FILENAME_10002));
-            isBig = (Boolean) object.get(IS_BIG);
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+        Boolean isBig = getBoolProperty(IS_BIG, FILENAME_10002, false);;
         Assert.assertTrue(isBig);
     }
 }

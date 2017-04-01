@@ -44,13 +44,16 @@ public class FileClientStorage implements ClientStorage {
         } else {
             outboxDir.mkdir();
         }
-
-        processedDir = new File(processedDirPath);
-        if (processedDir.exists()) {
-            checkArgument(processedDir.isDirectory() && processedDir.canWrite(),
-                    "Директория с обработанными входными файлами указана не верно или нет прав на запись");
+        if (!"".equals(processedDirPath)) {
+            processedDir = new File(processedDirPath);
+            if (processedDir.exists()) {
+                checkArgument(processedDir.isDirectory() && processedDir.canWrite(),
+                        "Директория с обработанными входными файлами указана не верно или нет прав на запись");
+            } else {
+                processedDir.mkdir();
+            }
         } else {
-            processedDir.mkdir();
+            processedDir = null;
         }
 
         inboxFiles = inboxDir.listFiles((File f, String name) -> name.matches("^\\d*.json$"));
@@ -90,13 +93,15 @@ public class FileClientStorage implements ClientStorage {
 
     @Override
     public void markProcessed(Client client) throws StoreClientException {
-        String fileName = String.format(FILE_TEMPLATE, client.getClientId());
-        File inputFile = new File(inboxDir, fileName);
-        File processedFile = new File(processedDir, fileName);
-        try {
-            Files.move(inputFile, processedFile);
-        } catch (IOException ex) {
-            throw new StoreClientException("Не удалось перенести обработанный файл в другую директорию", ex);
+        if (processedDir != null) {
+            String fileName = String.format(FILE_TEMPLATE, client.getClientId());
+            File inputFile = new File(inboxDir, fileName);
+            File processedFile = new File(processedDir, fileName);
+            try {
+                Files.move(inputFile, processedFile);
+            } catch (IOException ex) {
+                throw new StoreClientException("Не удалось перенести обработанный файл в другую директорию", ex);
+            }
         }
     }
 }

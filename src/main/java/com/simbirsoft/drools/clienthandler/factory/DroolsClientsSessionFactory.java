@@ -1,20 +1,23 @@
 package com.simbirsoft.drools.clienthandler.factory;
 
-import org.drools.runtime.StatelessKnowledgeSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.kie.api.KieServices;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Component;
 
 @Component("DroolsClientsSessionFactory")
-public class DroolsClientsSessionFactory implements DroolsSessionFactory {
+public class DroolsClientsSessionFactory implements DroolsSessionFactory<KieSession> {
 
-    public static final String CLIENTS_KSESSION = "clientsKSession";
+    public static final String CLIENTS_KSESSION = "ksession-clients";
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    private final KieContainer kieContainer;
+
+    protected DroolsClientsSessionFactory() {
+        kieContainer = KieServices.Factory.get().getKieClasspathContainer();
+    }
 
     @Override
-    public StatelessKnowledgeSession createSession() {
-        return (StatelessKnowledgeSession) applicationContext.getBean(CLIENTS_KSESSION);
+    public KieSession createSession() {
+        return kieContainer.newKieSession(CLIENTS_KSESSION);
     }
 }

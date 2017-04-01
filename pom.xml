@@ -10,7 +10,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <jackson.version>2.2.3</jackson.version>
-
+        <drools.runtime.version>6.4.0.Final</drools.runtime.version>
         <spring.version>4.3.3.RELEASE</spring.version>
     </properties>
     <repositories>
@@ -43,9 +43,19 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>${drools.runtime.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.drools</groupId>
-            <artifactId>drools-spring</artifactId>
-            <version>5.4.0.Final</version>
+            <artifactId>drools-core</artifactId>
+            <version>${drools.runtime.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>${drools.runtime.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
