@@ -29,6 +29,7 @@ public class DroolsClientsServiceImpl implements DroolsClientsService {
         LOGGER.debug("Running rules for clients...");
         clients.forEach(kieSession::insert);
         kieSession.fireAllRules();
+        kieSession.dispose();
         LOGGER.debug("...finished running clients.");
         return clients.stream().map(DroolsClient::getClientResult).collect(Collectors.toList());
     }
